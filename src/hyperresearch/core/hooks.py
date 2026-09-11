@@ -3540,7 +3540,14 @@ if (vault) {{
         '',
         'For multiple URLs, use subagents to fetch in parallel.',
     ].join('\\n');
-    process.stderr.write(msg + '\\n');
+    // stderr reaches the model only on exit 2. On exit 0 it goes to the debug
+    // log, so the reminder has to leave as hookSpecificOutput JSON on stdout.
+    process.stdout.write(JSON.stringify({{
+        hookSpecificOutput: {{
+            hookEventName: 'PreToolUse',
+            additionalContext: msg
+        }}
+    }}) + '\\n');
 }}
 """
 
