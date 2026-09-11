@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- **The `install` PreToolUse hook now delivers its reminder (#94).** The generated `.hyperresearch/hook.js` printed the reminder with `process.stderr.write` and exited 0, and Claude Code forwards a hook's stderr to the model only on exit 2 — so the reminder landed in the debug log and the agent never saw it. The script now emits the documented `hookSpecificOutput` payload on stdout. The exit code, the `Glob|Grep|WebSearch|WebFetch` matcher, and the vault check that gates the message are unchanged.
+
 ## [0.10.0] - 2026-08-01
 
 ### Open-access full-text recovery (Unpaywall + Europe PMC)
