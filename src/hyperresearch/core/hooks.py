@@ -3730,8 +3730,12 @@ def _install_claude_hook(vault_root: Path, hpr_path: str) -> str | None:
                 if "hyperresearch" in h.get("command", ""):
                     return None
 
+    # Web tools only. The reminder is "check the vault before you search the
+    # web"; on Glob and Grep it is noise, and now that the payload actually
+    # reaches the model (it was silently discarded before #94), every match
+    # costs context on every call.
     pre_tool.append({
-        "matcher": "Glob|Grep|WebSearch|WebFetch",
+        "matcher": "WebSearch|WebFetch",
         "hooks": [{
             "type": "command",
             "command": f'node "{hook_path.as_posix()}"',
